@@ -16,27 +16,27 @@
     <center><p style="font-size:70px;"><span id="countdowntimer"></span></p></center>
  <script>
 
-    function vibrate() {
-        navigator.vibrate([500]);
-    }
-
     var timeleft = 10;
     var timer = setInterval(function(){
     document.getElementById("countdowntimer").textContent = timeleft;
     
-    if(timeleft > 0){
+    if(timeleft > -1){
         timeleft--;
     }
         
-    if(timeleft <= 3 && timeleft > 0){
-        vibrate();
+    if(timeleft <= 2 && timeleft >= 0){
+        navigator.vibrate([300]);
         document.body.style.backgroundColor = "yellow";
     }
-    if(timeleft == 0){
+    if(timeleft == -1){
         document.body.style.backgroundColor = "green";
-        clearInterval(setInterval);
+        document.getElementById("countdowntimer").textContent = "Jump!";
     }
     },1000);
+
+    
+
+
 
  </script>
  </body>
