@@ -1,14 +1,43 @@
 <!DOCTYPE html>
 <html>
  <head>
- <title>Moment title</title>
+ <title>Crowd Song</title>
  <style>
- CSS here.
+     body {
+    background-color: rgb(218, 218, 218);
+    }
+    .container {
+    position: relative;
+    text-align: center;
+    }
  </style>
  </head>
  <body>
+    <center><p style="font-size:70px;"><span id="countdowntimer"></span></p></center>
  <script>
- Your javascript here.
+
+    function vibrate() {
+        navigator.vibrate([500]);
+    }
+
+    var timeleft = 10;
+    var timer = setInterval(function(){
+    document.getElementById("countdowntimer").textContent = timeleft;
+    
+    if(timeleft > 0){
+        timeleft--;
+    }
+        
+    if(timeleft <= 3 && timeleft > 0){
+        vibrate();
+        document.body.style.backgroundColor = "yellow";
+    }
+    if(timeleft == 0){
+        document.body.style.backgroundColor = "green";
+        clearInterval(setInterval);
+    }
+    },1000);
+
  </script>
  </body>
 </html>
