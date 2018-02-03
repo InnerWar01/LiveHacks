@@ -1,42 +1,89 @@
 <!DOCTYPE html>
 <html>
  <head>
- <title>Crowd Song</title>
- <style>
-     body {
-    background-color: rgb(218, 218, 218);
-    }
-    .container {
-    position: relative;
-    text-align: center;
-    }
- </style>
+    <title>Crowd Song</title>
+    <style>
+        html, body {
+            height: 100%;
+            background-color: rgb(218, 218, 218);
+        }
+        center {
+            height: 100%;
+        }
+
+        p {
+            padding-top: 70% !important;
+            display: none;
+        }
+        
+        center {
+            position: relative;
+            text-align: center;
+        }
+
+        #trigger {
+            border-radius: 50%;
+            height: 300px;
+            width: 300px;
+            margin-top: 45%;
+        }
+    </style>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
  </head>
  <body>
-    <center><p style="font-size:70px;"><span id="countdowntimer"></span></p></center>
- <script>
+    <center>
+        <p id="pid" style="font-size:70px;">
+            <span id="countdowntimer"></span>
+        </p>
+        <button class="btn btn-primary btn-circle" id="trigger">Click Me !</button>
+    </center>
+    <script>
+        document.getElementById("trigger").addEventListener("click", triggerClock, false);
 
-    var timeleft = 10;
-    var timer = setInterval(function(){
-    document.getElementById("countdowntimer").textContent = timeleft;
-    
-    if(timeleft > -1){
-        timeleft--;
-    }  
-    if(timeleft <= 2 && timeleft >= 0){
-        navigator.vibrate([300]);
-        document.body.style.backgroundColor = "yellow";
-    }
-    if(timeleft == -1){
-        document.body.style.backgroundColor = "green";
-        document.getElementById("countdowntimer").textContent = "Jump!";
-    }
-    },1000);
+        function vibrate() {
+            navigator.vibrate([500]);
+        }
 
-    
+        var timeleft = 10;
+        function triggerClock(event) {
+            var timer = setInterval(function(){
+                document.getElementById("trigger").style.display = 'none';
+                document.getElementById("pid").style.display = 'block';
+                document.getElementById("countdowntimer").textContent = timeleft;
+                
+                if(timeleft > -1){
+                    timeleft--;
+                }
+                    
+                if(timeleft <= 2 && timeleft > 0){
+                    vibrate();
+                    document.body.style.backgroundColor = "yellow";
+                }
+                if(timeleft == -1){
+                    document.body.style.backgroundColor = "green";
+                    clearInterval(setInterval);
+                    document.getElementById("countdowntimer").textContent = timeleft;
+                    document.getElementById("countdowntimer").textContent = "JUMP !";
+                }
+            },1000);
+        }
 
+        //Accelerometer
+        if(window.DeviceMotionEvent){
+            window.addEventListener("devicemotion", motion, false);
+        }else{
+            console.log("DeviceMotionEvent is not supported");
+        }
 
-
- </script>
+        var audio;
+        
+        function motion(event){
+                if (event.accelerationIncludingGravity.z > 15) {
+                    window.removeEventListener("devicemotion", motion, false);
+                    document.body.style.backgroundColor = "blue";
+                    audio = new Audio('https://s3-eu-west-1.amazonaws.com/kfscvsej5t/p1.mp3').play();
+                }
+        }
+    </script>
  </body>
 </html>
